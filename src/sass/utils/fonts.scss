@@ -1,0 +1,45 @@
+/**
+ * Fonts
+ */
+
+$path : '../fonts/';
+$bold : 'oswald-bold';
+$semibold : 'oswald-semibold';
+$medium : 'oswald-medium';
+$regular : 'oswald-regular';
+$light : 'oswald-light';
+
+@font-face {
+    font-family: $bold;
+    src: url('#{$path}oswald-bold-webfont.woff2') format('woff2'),
+         url('#{$path}oswald-bold-webfont.woff') format('woff'),
+         url('#{$path}oswald-bold-webfont.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: $semibold;
+    src: url('#{$path}oswald-semibold-webfont.woff2') format('woff2'),
+         url('#{$path}oswald-semibold-webfont.woff') format('woff'),
+         url('#{$path}oswald-semibold-webfont.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: $medium;
+    src: url('#{$path}oswald-medium-webfont.woff2') format('woff2'),
+         url('#{$path}oswald-medium-webfont.woff') format('woff'),
+         url('#{$path}oswald-medium-webfont.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: $regular;
+    src: url('#{$path}oswald-regular-webfont.woff2') format('woff2'),
+         url('#{$path}oswald-regular-webfont.woff') format('woff'),
+         url('#{$path}oswald-regular-webfont.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: $light;
+    src: url('#{$path}oswald-light-webfont.woff2') format('woff2'),
+         url('#{$path}oswald-light-webfont.woff') format('woff'),
+         url('#{$path}oswald-light-webfont.ttf') format('truetype');
+}
