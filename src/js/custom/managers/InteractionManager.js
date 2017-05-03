@@ -35,11 +35,15 @@ class InteractionManager {
     }
 
     static onMousedown() {
+        if (!window.canStart) return;
+        
         window.mousedown = true;
         EventsManager.emit(Events.MOUSE_DOWN);
     }
 
     static onMouseup() {
+        if (!window.canStart || !window.mousedown) return;
+
         window.mousedown = false;
         EventsManager.emit(Events.MOUSE_UP);
     }

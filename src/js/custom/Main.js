@@ -37,6 +37,7 @@ class Main {
 	constructor() {
 		// Global
 		window.vjPlaying = false;
+		window.canStart = false;
 
 		// Bindings
 		this.render 		= ::this.render;
@@ -60,6 +61,7 @@ class Main {
         this.$brand = this.$ui.querySelector('.brand--ui');
         this.$logo = this.$ui.querySelector('.logo');
         this.$crosses = this.$ui.querySelectorAll('.cross');
+        this.$restart = this.$ui.querySelector('.restart');
         this.$brandCorner = document.querySelector('.brand--corner');
 
 		// Create App
@@ -149,7 +151,9 @@ class Main {
 	}
 
 	display() {
-		this.displayTL = new TimelineMax();
+		this.displayTL = new TimelineMax({ onComplete:() => {
+			window.canStart = true;
+		}});
 		this.displayTL.addCallback(() => {
 			this.circles.display();
 		}, 0);
@@ -163,7 +167,7 @@ class Main {
     	window.vjPlaying = false;
 
 		TweenMax.delayedCall(0.6, () => {
-			this.pauseVjing()
+			this.pauseVjing(true);
 		});
     }
 
@@ -177,7 +181,7 @@ class Main {
 		TweenMax.to([window.app.camera.position, window.app.css3DCamera.position], 0.6, { z:1400, ease:Power2.easeOut });
 
 		// Hide helper
-		TweenMax.to([this.$helper, this.$logo], 0.3, { opacity:0, ease:Power2.easeOut });
+		TweenMax.to([this.$helper, this.$logo, this.$restart, this.$credits], 0.3, { opacity:0, ease:Power2.easeOut });
 	}
 
 	onMouseUp() {
@@ -259,7 +263,7 @@ class Main {
 		this.playTL.to(this.$brandCorner, 0.4, { opacity:1, ease:Power2.easeOut }, 0.3);
 	}
 
-	pauseVjing() {
+	pauseVjing(restart = false) {
 		// Reset postFX
     	this.postFXPass.shader.uniforms.divide.value = 1;
 		this.postFXPass.shader.uniforms.mirrorX.value = 0;
@@ -283,7 +287,8 @@ class Main {
 		this.pauseTL.to(this.background.scale, 0.7, { x:1, y:1, ease:Power2.easeOut }, 0);
 		this.pauseTL.to(this.supershape.scale, 0.7, { x:0.7, y:0.7, z:0.7, ease:Power2.easeOut }, 0);
 		this.pauseTL.to(this.$brandCorner, 0.3, { opacity:0, ease:Power2.easeOut }, 0);
-		this.pauseTL.to([this.$ui, this.$crosses, this.$brand, this.$credits, this.$logo], 0.7, { opacity:1, ease:Power2.easeOut });
+		this.pauseTL.to([this.$ui, this.$crosses, this.$brand, this.$credits, this.$logo], 1.2, { opacity:1, ease:Power2.easeOut }, 0.7);
+		if (restart) this.pauseTL.to(this.$restart, 1.2, { opacity:1, ease:Power2.easeOut }, 0.7);
 		this.pauseTL.addCallback(() => {
 			// Display circles
 			this.circles.bounce();
