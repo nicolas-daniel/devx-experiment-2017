@@ -120,6 +120,7 @@ canvas {
 
 .credit__link {
     color: $grey;
+    transition: color 0.3s ease-out;
 
     &:hover {
         color: $black;
@@ -208,12 +209,12 @@ canvas {
     padding: 0 40px;
 
     &--corner {
-        top: 40px;
-        right: 40px;
+        top: 60px;
+        right: 60px;
         left: inherit;
         z-index: 10;
         
-        width: 35px;
+        width: 27px;
         height: 100px;
         padding: 0;
 
@@ -223,12 +224,24 @@ canvas {
             position: absolute;
             top: 0;
             left: 0;
+
+            font-size: 26px;
+            letter-spacing: 0.034em;
+            line-height: 28px;
         }
 
         .brand__tagline {
             position: absolute;
-            top: 73px;
-            left: 0;
+            top: 53px;
+            left: 1px;
+
+            width: 85px;
+
+            span {
+                font-size: 12px;
+                letter-spacing: 0.205em;
+                line-height: 15px;
+            }
         }
     }
 }
