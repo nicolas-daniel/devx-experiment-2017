@@ -54,7 +54,7 @@ gulp.task('vendors::prod', () => {
 
     return gulp.src(vendorsEntries) // take all the files in the vendors folders
         .pipe(concat(vendorsFilename + '.min.js')) // concatenate them in a single file
-        .pipe(uglify(uglifyOptions)) // minify the concatenated file
+        // .pipe(uglify(uglifyOptions)) // minify the concatenated file
         .pipe(gulp.dest(vendorsOutput)); // output the minified file in the specified directory
 });
 
@@ -117,7 +117,7 @@ const bundleDev = ( bundler, filename ) => {
 
 const bundleProd = ( bundler, filename ) => {
     const startTime = process.hrtime(); // track when the task has started
-    const banner = ['/* A K F N - 2016 */\n console.log("A K F N - 2016");\n',''].join('\n'); // prepare banner for the final file
+    const banner = ['console.log("OFFF MILANO VJING EXPERIMENT 2017");\n',''].join('\n'); // prepare banner for the final file
 
     // uglify and remove comments and logs to console
     const uglifyOptions = {
