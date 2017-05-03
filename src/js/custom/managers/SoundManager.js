@@ -48,8 +48,8 @@ class SoundManager {
         this.player.setAttribute('webkit-playsinline', '');
         this.player.addEventListener('canplay', this.onLoad);
         this.player.addEventListener('ended', this.onEnded);
-        this.player.src = '../assets/sound/music.mp3';
-        // this.player.src = '../assets/sound/debug.mp3';
+        this.player.src = window.dev ? 'assets/sound/music.mp3' : 'public/assets/sound/music.mp3';
+        // this.player.src = window.dev ? 'assets/sound/debug.mp3' : 'public/assets/sound/debug.mp3';
 
         // Listeners
         EventsManager.on(Events.KEYPRESS, this.onKeyPress);
