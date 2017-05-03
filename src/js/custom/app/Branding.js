@@ -12,11 +12,17 @@ class Branding {
         this.$lines = this.$view.querySelectorAll('.logo__line');
         this.$helperAction = this.$view.querySelector('.helper__action');
         this.$helperReaction = this.$view.querySelector('.helper__reaction');
+        this.$links = this.$view.querySelectorAll('.credit__link');
 
         // Bindings
         this.onPaletteChange = ::this.onPaletteChange;
+        this.stopPropagation = ::this.stopPropagation;
 
-        console.log('hello')
+        // Stop propagations
+        for (let i=0; i<this.$links.length; i++) {
+            this.$links[i].addEventListener('mousedown', this.stopPropagation);
+            this.$links[i].addEventListener('mouseup', this.stopPropagation);
+        }
 
         // Listeners
         EventsManager.on(Events.PALETTE_CHANGE, this.onPaletteChange);
@@ -62,6 +68,10 @@ class Branding {
         for (let i=0; i<this.$lines.length; i++) {
             this.$lines[i].style.backgroundColor = '#FFFFFF';
         }
+    }
+
+    stopPropagation(e) {
+        e.stopPropagation();
     }
 
 }
