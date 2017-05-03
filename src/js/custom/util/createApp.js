@@ -35,8 +35,8 @@ function createApp (opt = {}) {
 	// const controls = new OrbitControls(camera);
 
 	// effect composer
-	WAGNER.vertexShadersPath = 'js/vertex-shaders';
-	WAGNER.fragmentShadersPath = 'js/fragment-shaders';
+	WAGNER.vertexShadersPath = window.dev ? 'js/vertex-shaders' : 'public/js/vertex-shaders';
+	WAGNER.fragmentShadersPath = window.dev ? 'js/fragment-shaders' : 'public/js/fragment-shaders';
 	const composer = new WAGNER.Composer(renderer, { useRGBA:true });
 	composer.setSize(canvas.width, canvas.height);
 

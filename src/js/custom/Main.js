@@ -36,6 +36,7 @@ class Main {
 
 	constructor() {
 		// Global
+		window.dev = false;
 		window.vjPlaying = false;
 		window.canStart = false;
 
