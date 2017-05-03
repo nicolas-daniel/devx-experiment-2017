@@ -1,3 +1,5 @@
+// Shader by @thomcc on Codepen https://codepen.io/thomcc/pen/lLFbw
+
 precision mediump float;
 varying vec3 v_eyeNormal;
 varying vec3 v_diffuse;

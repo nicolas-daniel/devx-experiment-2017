@@ -117,7 +117,7 @@ const bundleDev = ( bundler, filename ) => {
 
 const bundleProd = ( bundler, filename ) => {
     const startTime = process.hrtime(); // track when the task has started
-    const banner = ['console.log("OFFF MILANO VJING EXPERIMENT 2017");\n',''].join('\n'); // prepare banner for the final file
+    const banner = [`console.log("OFF Milano VJING Experiment 2017");\n`,''].join('\n'); // prepare banner for the final file
 
     // uglify and remove comments and logs to console
     const uglifyOptions = {

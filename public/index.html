@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Milano VJING 2017</title>
+    <title>OFFF Milano VJING 2017</title>
     <link rel="stylesheet" href="css/build.css" />
 </head>
 <body>
@@ -65,124 +65,6 @@
             </div>
         </div>
     </section>
-    <!-- original shader by https://github.com/pnitsch -->
-        <script type="x-shader/x-vertex" id="vertexShader">
-            varying vec2 vUv;
-            void main() {
-                vUv = uv; 
-                gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-            }
-        </script>
-
-        <script type="x-shader/x-vertex" id="fragmentShader">
-            varying vec2 vUv;
-            uniform float mode;
-            uniform float rx;
-            uniform float ry; 
-            uniform float charMapSize;
-            uniform float numChars;
-            uniform sampler2D inputTexture;
-            uniform sampler2D asciiTexture;
-            uniform sampler2D hashTexture;
-            uniform vec2 fontSize;
-            vec2 imageSize = vec2(500.0, 500.0);
-            vec2 canvasSize = vec2(500.0, 500.0);   
-            const float contrast = 0.0;
-            const float colorDepth = 255.0/16.0;
-            const vec2 hashSize = vec2(256.0, 256.0);
-            vec4 pix = vec4(0.0, 0.0, 0.0, 0.0);
-            vec4 key = vec4(0.0, 0.0, 0.0, 0.0);
-            float h_fs_x, h_fs_y;
-            float packColor(vec4 color) {   
-                return (color.r + (color.g*256.0) + (color.b*256.0*256.0) + (color.a*256.0*256.0*256.0));
-            }
-            vec4 contrastPix(float _x, float _y) {
-                float factor = (259.0 * (contrast + 255.0)) / (255.0 * (259.0 - contrast));
-                vec4 p = texture2D(inputTexture, vec2(_x, _y));
-                p.r = (factor * ((p.r*255.0) - 128.0) + 128.0)/255.0;
-                p.g = (factor * ((p.g*255.0) - 128.0) + 128.0)/255.0;
-                p.b = (factor * ((p.b*255.0) - 128.0) + 128.0)/255.0;
-                p.a = 1.0;
-                return p;
-            }
-            void sampleRegion(float x, float y) {
-                vec4 c1, c2, c3, c4;
-                c1 = contrastPix(x, y);
-                key.r += (c1.r + c1.g + c1.b)/3.0;
-                c2 = contrastPix(x+h_fs_x, y);
-                key.g += (c2.r + c2.g + c2.b)/3.0;  
-                c3 = contrastPix(x, y+h_fs_y);
-                key.b += (c3.r + c3.g + c3.b)/3.0;
-                c4 = contrastPix(x+h_fs_x, y+h_fs_y);
-                key.a += (c4.r + c4.g + c4.b)/3.0;
-                c1.r = (floor((c1.r*255.0)/colorDepth)*colorDepth)/255.0;
-                c1.g = (floor((c1.g*255.0)/colorDepth)*colorDepth)/255.0;
-                c1.b = (floor((c1.b*255.0)/colorDepth)*colorDepth)/255.0;
-                pix.rgb += c1.rgb;
-            }
-            void analyseQuads(vec2 _offset) {
-                h_fs_x = (fontSize.x*0.5)/imageSize.x;
-                h_fs_y = (fontSize.y*0.5)/imageSize.y;
-                float increment = 1.0/imageSize.y;
-                float y=_offset.y;
-                float x=_offset.x;
-                sampleRegion(x, y); x+=increment;
-                sampleRegion(x, y); x+=increment;
-                sampleRegion(x, y); x+=increment;
-                sampleRegion(x, y); x+=increment;
-                x=_offset.x; y+=increment;
-                sampleRegion(x, y); x+=increment;
-                sampleRegion(x, y); x+=increment;
-                sampleRegion(x, y); x+=increment;
-                sampleRegion(x, y); x+=increment;
-                x=_offset.x; y+=increment;
-                sampleRegion(x, y); x+=increment;
-                sampleRegion(x, y); x+=increment;
-                sampleRegion(x, y); x+=increment;
-                sampleRegion(x, y); x+=increment;
-                x=_offset.x; y+=increment;
-                sampleRegion(x, y); x+=increment;
-                sampleRegion(x, y); x+=increment;
-                sampleRegion(x, y); x+=increment;
-                sampleRegion(x, y); x+=increment;
-                x=_offset.x; y+=increment;
-                pix /= 16.0;
-                key = floor(key)/16.0;
-            }
-            void main(void) {
-                imageSize.x = rx;
-                canvasSize.x = rx;
-                imageSize.y = ry;
-                canvasSize.y = ry;
-                ivec2 ioffset = ivec2(gl_FragCoord.xy/fontSize.xy);
-                ioffset *= ivec2(fontSize.xy);
-                vec2 offset = vec2(ioffset);
-                offset /= canvasSize;
-                analyseQuads(offset);
-                float index = packColor( key )/256.0;
-                float hash_x = mod(index, hashSize.x); 
-                float hash_y = (index-hash_x)/hashSize.x;
-                vec4 char_pix = texture2D(hashTexture, vec2(hash_x/256.0, hash_y/256.0));
-                float ch = floor((char_pix.g)*255.0);
-                vec2 pos = mod(gl_FragCoord.xy, fontSize.xy);
-                pos = pos / vec2(fontSize.x*numChars, fontSize.y);
-                pos.x += ((floor(ch)*fontSize.x)/charMapSize);
-                pos.y = 1.0 - pos.y;
-                vec4 ascii_pix = vec4(texture2D(asciiTexture, pos).rgb, 1.0);
-                if(ascii_pix.r > 0.0 || mode!=6.0) {
-                    if(mode==5.0) ascii_pix.rgb = pix.rgb;
-                    else if(mode==1.0) ascii_pix.rgb = vec3(pix.g*0.1*ascii_pix.r, pix.g*ascii_pix.g, pix.g*0.1*ascii_pix.b);
-                    else if(mode==2.0) ascii_pix.rgb = vec3(1.0-ascii_pix.r,1.0-ascii_pix.g,1.0-ascii_pix.b);
-                    else if(mode==3.0) ascii_pix.rgb = vec3(1.0-pix.r*ascii_pix.r,1.0-pix.g*ascii_pix.g,1.0-pix.b*ascii_pix.b);
-                    else if(mode==4.0) ascii_pix.rgb = vec3(1.0-char_pix.g*ascii_pix.r, 1.0-char_pix.g*ascii_pix.g, 1.0-char_pix.g*ascii_pix.b);
-                    else if(mode==7.0) ascii_pix.rgb = vec3(pix.g*50.0/255.0*ascii_pix.r, pix.g*161.0/255.0*ascii_pix.g, pix.g*199.0/255.0*ascii_pix.b);
-                    else if(mode==8.0) ascii_pix.rgb = vec3(pix.r*ascii_pix.r, pix.g*ascii_pix.g*offset.x, pix.b*ascii_pix.b*offset.y);
-                    else if(mode==9.0) ascii_pix.rgb = vec3(1.0-pix.r*ascii_pix.r*offset.x, 1.0-pix.g*ascii_pix.g*offset.x, 1.0-pix.b*ascii_pix.b*offset.y);
-                    else if(mode==0.0) ascii_pix.rgb = vec3(pix.r*ascii_pix.r, pix.g*ascii_pix.g,pix.b*ascii_pix.b);
-                } 
-                gl_FragColor = ascii_pix;
-            }
-        </script>
     <script src="js/vendors/vendors.js"></script>
     <script src="js/build.js"></script>
 </body>

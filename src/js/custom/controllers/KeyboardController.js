@@ -20,6 +20,7 @@ class KeyboardController {
             116 : 't',
             121 : 'y',
             32  : 'spacebar',
+            99  : 'c',
         };
 
         // Events

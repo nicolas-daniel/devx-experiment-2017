@@ -24,27 +24,21 @@ class EffectController {
 
 	onKeypress(key) {
 		switch (key) {
-			case 'q':
-				EventsManager.emit(Events.SPLIT_EFFECT, 1);
-				break;
+			// case 'q':
+			// 	EventsManager.emit(Events.SPLIT_EFFECT, 1);
+			// 	break;
 			
-			case 'w':
-				EventsManager.emit(Events.SPLIT_EFFECT, 2);
-				break;
+			// case 'w':
+			// 	EventsManager.emit(Events.SPLIT_EFFECT, 2);
+			// 	break;
 				
-			case 'e':
-				EventsManager.emit(Events.SPLIT_EFFECT, 4);
-				break;
+			// case 'e':
+			// 	EventsManager.emit(Events.SPLIT_EFFECT, 4);
+			// 	break;
 
-			case 'r':
+			case 'c':
 				const palette = Utils.getPalette();
 				EventsManager.emit(Events.PALETTE_CHANGE, palette);
-				break;
-			
-			case 't':
-				break;
-			
-			case 'y':
 				break;
 		}
 	}
