@@ -1,6 +1,8 @@
 import EventsManager from 'events/EventsManager';
 import Events from 'events/Events';
 
+const tapEvent = require('tap-event');
+
 /**
  * Interaction Manager
  */
@@ -23,6 +25,7 @@ class InteractionManager {
         // Up
         window.addEventListener('mouseup', InteractionManager.onMouseup);
         window.addEventListener('touchend', InteractionManager.onMouseup);
+        // tapEvent(InteractionManager.onTap);
     }
 
     static onMousemove(e) {
@@ -45,6 +48,11 @@ class InteractionManager {
         if (!window.canStart || !window.mousedown) return;
 
         window.mousedown = false;
+        EventsManager.emit(Events.MOUSE_UP);
+    }
+
+    static onTap() {
+        EventsManager.emit(Events.MOUSE_DOWN);
         EventsManager.emit(Events.MOUSE_UP);
     }
 

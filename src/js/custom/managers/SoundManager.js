@@ -6,9 +6,10 @@ import RafManager from '../managers/RafManager';
 const createPlayer = require('web-audio-player');
 const createAnalyser = require('web-audio-analyser');
 const average = require('analyser-frequency-average');
+const detectAutoplay = require('detect-audio-autoplay');
+const createAudioContext = require('ios-safe-audio-context');
 
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-const audioContext = AudioContext ? new AudioContext() : null;
+const audioContext = createAudioContext();
 
 class SoundManager {
 
@@ -19,25 +20,41 @@ class SoundManager {
         this.bumbumTime = 0;
 
         // Bindings
-        this.onCanplay  = ::this.onCanplay;
+        this.onLoad     = ::this.onLoad;
         this.onEnded    = ::this.onEnded;
+        this.onClick    = ::this.onClick;
         this.update     = ::this.update;
         this.onKeyPress = ::this.onKeyPress;
 
+
         // Player
-        // this.player = createPlayer('../assets/sound/music.mp3');
-        // this.player.on('load', this.onCanplay);
+        // this.player = createPlayer('../assets/sound/music.mp3', {
+        //     context: audioContext,
+        //     buffer: true
+        // });
         // this.player.crossOrigin = 'Anonymous';
+        
+        // this.audioUtil = createAnalyser(this.player.node, this.player.context, {
+        //     stereo: false
+        // });
+        
+        // this.analyser = this.audioUtil.analyser;
+        
+        // this.player.on('load', this.onLoad);
+        // this.player.on('end', this.onEnded);
 
         this.player = new Audio();
         this.player.crossOrigin = 'Anonymous';
-        this.player.addEventListener('canplay', this.onCanplay);
+        this.player.setAttribute('webkit-playsinline', '');
+        this.player.addEventListener('canplay', this.onLoad);
         this.player.addEventListener('ended', this.onEnded);
-        // this.player.src = '../assets/sound/music.mp3';
-        this.player.src = '../assets/sound/debug.mp3';
+        this.player.src = '../assets/sound/music.mp3';
+        // this.player.src = '../assets/sound/debug.mp3';
 
         // Listeners
         EventsManager.on(Events.KEYPRESS, this.onKeyPress);
+
+        window.addEventListener('click', this.onClick);
     }
 
     /* Start */
@@ -67,7 +84,7 @@ class SoundManager {
         } });
     }
 
-    onCanplay() {
+    onLoad() {
         if (this.ready) return;
         this.ready = true;
 
@@ -85,6 +102,17 @@ class SoundManager {
         this.player.currentTime = 0;
 
         EventsManager.emit(Events.SOUND_ENDED);
+    }
+
+    onClick() {
+        // if (this.player.playing) this.player.pause()
+        // else this.player.play()
+        // if (this.player.playing) {
+        // clickToPlay.style.display = 'none'
+        // } else {
+        // clickToPlay.textContent = 'Paused'
+        // clickToPlay.style.display = 'block'
+        // }
     }
 
     onKeyPress(key) {

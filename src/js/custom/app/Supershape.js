@@ -74,12 +74,10 @@ class Supershape extends THREE.Object3D {
                 u_specular :    { type:'v3', value:new THREE.Vector3(0.50, 0.50, 0.50) },
                 u_shine :       { type:'f', value:1000.0 },
                 u_celShading :  { type:'f', value:10.0 },
-
-                color1 : { type:'c', value:new THREE.Color(0xffad32) },
-                color2 : { type:'c', value:new THREE.Color(0x85107a) },
-                color3 : { type:'c', value:new THREE.Color(0x161616) },
-                color4 : { type:'c', value:new THREE.Color(0xffff44) },
-                color5 : { type:'c', value:new THREE.Color(0xffad32) },
+                color1 :        { type:'c', value:new THREE.Color(0x85107a) },
+                color2 :        { type:'c', value:new THREE.Color(0x161616) },
+                color3 :        { type:'c', value:new THREE.Color(0xffff44) },
+                color4 :        { type:'c', value:new THREE.Color(0xffad32) }
             }
         });
 
@@ -158,12 +156,10 @@ class Supershape extends THREE.Object3D {
     }
 
     onPaletteChange(palette) {
-        this.material.uniforms.color1.value = new THREE.Color(palette.shape[0]);
-        this.material.uniforms.color2.value = new THREE.Color(palette.shape[1]);
-        this.material.uniforms.color3.value = new THREE.Color(palette.shape[2]);
-        this.material.uniforms.color4.value = new THREE.Color(palette.shape[3]);
-        this.material.uniforms.color5.value = new THREE.Color(palette.shape[4]);
-
+        this.material.uniforms.color1.value = new THREE.Color(palette.shape[1]);
+        this.material.uniforms.color2.value = new THREE.Color(palette.shape[2]);
+        this.material.uniforms.color3.value = new THREE.Color(palette.shape[3]);
+        this.material.uniforms.color4.value = new THREE.Color(palette.shape[4]);
         this.outlineMaterial.uniforms.u_color.value = new THREE.Color(palette.outline);
         this.thinOutlineMaterial.uniforms.u_color.value = new THREE.Color(palette.thinOutline);
     }

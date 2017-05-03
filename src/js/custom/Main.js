@@ -160,7 +160,7 @@ class Main {
 		this.displayTL.to(this.background.material.uniforms.progress, 0.6, { value:1, ease:Power2.easeInOut }, 0);
 		this.displayTL.to(this.$ui, 1.2, { opacity:1, ease:Power2.easeOut }, 0.4);
 		this.displayTL.to(this.ui.position, 1.2, { z:0, ease:Power2.easeOut }, 0.4);
-		this.displayTL.to(this.$helper, 1.2, { opacity:1, ease:Power2.easeOut }, 1.0);
+		this.displayTL.to(this.$helper, 0.6, { opacity:1, ease:Power2.easeOut }, 1.0);
 	}
 
     onSoundEnded() {
