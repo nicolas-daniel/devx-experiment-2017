@@ -33,8 +33,8 @@ class SoundManager {
         this.player.crossOrigin = 'Anonymous';
         this.player.addEventListener('canplay', this.onCanplay);
         this.player.addEventListener('ended', this.onEnded);
-        this.player.src = '../assets/sound/music.mp3';
-        // this.player.src = '../assets/sound/debug.mp3';
+        // this.player.src = '../assets/sound/music.mp3';
+        this.player.src = '../assets/sound/debug.mp3';
 
         // Listeners
         EventsManager.on(Events.KEYPRESS, this.onKeyPress);

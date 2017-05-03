@@ -9,7 +9,7 @@ class InteractionManager {
 
     static start() {
         // Props
-        window.mouse = new THREE.Vector2();
+        window.mouse = new THREE.Vector2(window.innerWidth * 0.5, window.innerHeight * 0.5);
         window.mousedown = false;
 
         // Move

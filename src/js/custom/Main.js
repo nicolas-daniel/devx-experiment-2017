@@ -73,6 +73,8 @@ class Main {
 		window.app.css3DCamera.position.z = 1200;
 		window.app.css3DCamera.lookAt(new THREE.Vector3(0,0,0));
 
+		window.app.render();
+
 		// PostFX
 		this.FXAAPass = new WAGNER.FXAAPass();
 		this.postFXPass = new WAGNER.Pass();
@@ -99,7 +101,7 @@ class Main {
 		this.ui = new THREE.CSS3DObject(this.$ui);
 		this.ui.position.x = 18;
 		this.ui.position.y = 18;
-		this.ui.position.z = 0;
+		this.ui.position.z = 100;
 		window.app.css3DScene.add(this.ui);
 
 		// Circles
@@ -140,6 +142,21 @@ class Main {
         EventsManager.on(Events.RESUME_VJING, this.onResumeVjing);
         EventsManager.on(Events.PAUSE_VJING, this.onPauseVjing);
 		window.addEventListener('resize', ::this.resize, true);
+
+		TweenMax.delayedCall(0.5, () => {
+			this.display();
+		});
+	}
+
+	display() {
+		this.displayTL = new TimelineMax();
+		this.displayTL.addCallback(() => {
+			this.circles.display();
+		}, 0);
+		this.displayTL.to(this.background.material.uniforms.progress, 0.6, { value:1, ease:Power2.easeInOut }, 0);
+		this.displayTL.to(this.$ui, 1.2, { opacity:1, ease:Power2.easeOut }, 0.4);
+		this.displayTL.to(this.ui.position, 1.2, { z:0, ease:Power2.easeOut }, 0.4);
+		this.displayTL.to(this.$helper, 1.2, { opacity:1, ease:Power2.easeOut }, 1.0);
 	}
 
     onSoundEnded() {
@@ -269,7 +286,7 @@ class Main {
 		this.pauseTL.to([this.$ui, this.$crosses, this.$brand, this.$credits, this.$logo], 0.7, { opacity:1, ease:Power2.easeOut });
 		this.pauseTL.addCallback(() => {
 			// Display circles
-			this.circles.display();
+			this.circles.bounce();
 		}, 0.3);
 	}
 
@@ -283,6 +300,7 @@ class Main {
 		window.app.composer.reset();
 		window.app.composer.render( window.app.scene, window.app.camera );
 		window.app.composer.pass( this.postFXPass );
+		// window.app.composer.pass( this.ASCIIPass );
 		window.app.composer.pass( this.FXAAPass );
 		window.app.composer.toScreen();
 	}

@@ -4,6 +4,10 @@ html, body {
     overflow: auto;
 }
 
+body {
+    background-color: #e9e9e9;
+}
+
 * {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
@@ -20,10 +24,10 @@ canvas {
 
 .ui {
     position: absolute;
-    // top: calc(50% - 250px);
-    // left: calc(50% - 250px);
     width: 100%;
     height: 100%;
+
+    opacity: 0;
 
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -53,6 +57,7 @@ canvas {
     width: 100%;
 
     text-align: center;
+    opacity: 0;
 }
 
 .helper__action {

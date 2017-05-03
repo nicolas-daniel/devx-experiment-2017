@@ -23,13 +23,6 @@ void main() {
 
     // Split
     uv *= divide; uv = mod(uv,vec2(1.));
-    // if (uv.x > 0.5 && uv.y > 0.5) uv *= 2.; uv = mod(uv,vec2(1.));
-    // if (vUv.x > 0.5 && vUv.y > 0.5) uv *= 2.; uv = mod(uv,vec2(1.));
-    
-    // if (vUv.x > 0.5 && vUv.y > 0.5) uv *= 2.; uv = mod(uv,vec2(1.));
-    // if (vUv.x <= 0.5 && vUv.y <= 0.5) uv *= 2.; uv = mod(uv,vec2(1.));
-    // if (vUv.x > 0.5 && vUv.y > 0.75 && vUv.x <= 0.75) uv *= 2.; uv = mod(uv,vec2(1.));
-    // if (vUv.y < 0.5 && vUv.y >= 0.25 && vUv.x <= 0.25) uv *= 2.; uv = mod(uv,vec2(1.));
 
     vec4 color = texture2D(tInput, uv);
 

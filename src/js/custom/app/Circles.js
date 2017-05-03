@@ -24,7 +24,7 @@ class Circles extends THREE.Object3D {
             const mesh = new THREE.Mesh(geometry, this.material);
             mesh.position.z = - (6 - i) * 10 * 4;
             mesh.initialDepth = mesh.position.z;
-            mesh.scale.x = mesh.scale.y = 0.9;
+            mesh.scale.x = mesh.scale.y = 0.01;
             this.add(mesh);
             this.meshes[i] = mesh;
         }
@@ -33,6 +33,13 @@ class Circles extends THREE.Object3D {
     }
 
     display() {
+        const tl = new TimelineMax();
+        for (let i=0; i<this.meshes.length; i++) {
+            tl.to(this.meshes[i].scale, 1.2, { x:0.9, y:0.9, ease:Power3.easeOut, }, i * 0.03);
+        }
+    }
+
+    bounce() {
         const tl = new TimelineMax();
         for (let i=0; i<this.meshes.length; i++) {
             tl.fromTo(this.meshes[i].scale, 0.6, { x:0.88, y:0.88 }, { x:1, y:1, ease:Power2.easeOut, }, i * 0.06);
