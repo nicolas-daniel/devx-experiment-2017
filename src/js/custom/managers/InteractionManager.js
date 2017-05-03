@@ -1,5 +1,5 @@
-import EventsManager from '../events/EventsManager';
-import Events from '../events/Events';
+import EventsManager from 'events/EventsManager';
+import Events from 'events/Events';
 
 /**
  * Interaction Manager

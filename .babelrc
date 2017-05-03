@@ -1,6 +1,17 @@
 {
   "presets": ["es2015"],
   "plugins": [
-	"transform-function-bind",
+    "transform-function-bind",
+    ["module-resolver", {
+        "root": ["./src/js/custom"],
+        "alias": {
+            "app"           : "./src/js/custom/app",
+            "colors"        : "./src/js/custom/colors",
+            "controllers"   : "./src/js/custom/controllers",
+            "events"        : "./src/js/custom/events",
+            "managers"      : "./src/js/custom/managers",
+            "util"          : "./src/js/custom/util",
+        }
+    }]
   ]
 }

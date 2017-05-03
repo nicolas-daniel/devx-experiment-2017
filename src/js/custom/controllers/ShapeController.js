@@ -1,12 +1,12 @@
-import RafManager from '../managers/RafManager';
+import RafManager from 'managers/RafManager';
 
-import EventsManager from '../events/EventsManager';
-import Events from '../events/Events';
+import EventsManager from 'events/EventsManager';
+import Events from 'events/Events';
 
-import Simple1DNoise from '../util/Simple1DNoise';
+import Simple1DNoise from 'util/Simple1DNoise';
 const noise = new Simple1DNoise();
 
-import Utils from '../util/Utils';
+import Utils from 'util/Utils';
 
 class ShapeController {
 

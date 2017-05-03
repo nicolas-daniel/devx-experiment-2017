@@ -1,7 +1,7 @@
-import EventsManager from '../events/EventsManager';
-import Events from '../events/Events';
+import EventsManager from 'events/EventsManager';
+import Events from 'events/Events';
 
-import ShapeController from '../controllers/ShapeController';
+import ShapeController from 'controllers/ShapeController';
 
 const glslify = require('glslify');
 

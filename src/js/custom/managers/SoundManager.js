@@ -45,11 +45,19 @@ class SoundManager {
         if (!SoundManager.instance) SoundManager.instance = new SoundManager();
     }
 
-    static play() {
-        SoundManager.instance.player.play();
-        TweenMax.to(SoundManager.instance.player, 0.3, { volume:1, ease:Power2.easeOut, onComplete:() => {
-            RafManager.bind('soundmanager', SoundManager.instance.update);
-        } });
+    static play(crossfade = true) {
+        if (crossfade) {
+            SoundManager.instance.player.play();
+            TweenMax.to(SoundManager.instance.player, 0.3, { volume:1, ease:Power2.easeOut, onComplete:() => {
+                RafManager.bind('soundmanager', SoundManager.instance.update);
+            } });
+        } else {
+            SoundManager.instance.player.volume = 1;
+            SoundManager.instance.player.play();
+            TweenMax.delayedCall(0.3, () => {
+                RafManager.bind('soundmanager', SoundManager.instance.update);
+            });
+        }
     }
 
     static pause() {

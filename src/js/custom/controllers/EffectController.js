@@ -1,9 +1,9 @@
-import EventsManager from '../events/EventsManager';
-import Events from '../events/Events';
+import EventsManager from 'events/EventsManager';
+import Events from 'events/Events';
 
-import Utils from '../util/Utils';
+import Utils from 'util/Utils';
 
-import colorsPalette from '../colors/colorsPalette';
+import colorsPalette from 'colors/colorsPalette';
 
 class EffectController {
 

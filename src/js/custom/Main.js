@@ -1,25 +1,28 @@
-const createApp = require('./util/createApp');
+const createApp = require('util/createApp');
 
-import Utils from './util/Utils';
+import Utils from 'util/Utils';
 
 // Events
-import EventsManager from './events/EventsManager';
-import Events from './events/Events';
+import EventsManager from 'events/EventsManager';
+import Events from 'events/Events';
 
 // Managers
-import RafManager from './managers/RafManager';
-import InteractionManager from './managers/InteractionManager';
-import SoundManager from './managers/SoundManager';
+import RafManager from 'managers/RafManager';
+import InteractionManager from 'managers/InteractionManager';
+import SoundManager from 'managers/SoundManager';
 
 // Controllers
-import KeyboardController from './controllers/KeyboardController';
-import EffectController from './controllers/EffectController';
-import ShapeController from './controllers/ShapeController';
+import KeyboardController from 'controllers/KeyboardController';
+import EffectController from 'controllers/EffectController';
+import ShapeController from 'controllers/ShapeController';
 
 // Objects3D
-import Supershape from './app/Supershape';
-import Background from './app/Background';
-import Circles from './app/Circles';
+import Supershape from 'app/Supershape';
+import Background from 'app/Background';
+import Circles from 'app/Circles';
+
+// UI
+import Branding from 'app/Branding';
 
 const glslify = require('glslify');
 
@@ -54,9 +57,10 @@ class Main {
         this.$ui = document.querySelector('.ui');
         this.$helper = this.$ui.querySelector('.helper');
         this.$credits = this.$ui.querySelector('.credits');
-        this.$brand = this.$ui.querySelector('.brand');
+        this.$brand = this.$ui.querySelector('.brand--ui');
         this.$logo = this.$ui.querySelector('.logo');
         this.$crosses = this.$ui.querySelectorAll('.cross');
+        this.$brandCorner = document.querySelector('.brand--corner');
 
 		// Create App
 		window.app = createApp({ debug:false });
@@ -87,6 +91,9 @@ class Main {
 		KeyboardController.start();
 		EffectController.start();
 		ShapeController.start();
+
+		// Branding
+		this.branding = new Branding(this.$ui);
 
 		// UI
 		this.ui = new THREE.CSS3DObject(this.$ui);
@@ -161,16 +168,10 @@ class Main {
 		window.vjPlaying = true;
 
 		// Set white mode UI 
-        this.$ui.classList.add('ui--white');
+        // this.$ui.classList.add('ui--white');
+        // this.branding.setWhiteMode();
 
-  //       // Timeline
-		// const tl = new TimelineMax({ onComplete:() => {
-		// 	SoundManager.play();
-		// }});
-		// tl.to(this.background.scale, 0.6, { x:window.innerWidth/400, y:window.innerHeight/400, ease:Power2.easeOut }, 0);
-		// tl.to([window.app.camera.position, window.app.css3DCamera.position], 0.6, { z:1200, ease:Power2.easeOut }, 0);
-		// tl.to([this.$credits, this.$brand, this.$crosses], 0.3, { opacity:0, ease:Power2.easeOut }, 0);
-		this.playVjing();
+		this.playVjing(true, false);
 	}
 
 	onPlayEffect({ disallow }) {
@@ -225,14 +226,20 @@ class Main {
 		this.pauseVjing();
 	}
 
-	playVjing(playSound = true) {
+	playVjing(playSound = true, crossfade = true) {
+		// Kill old timelines
+		if (this.playTL) this.playTL.kill();
+		if (this.pauseTL) this.pauseTL.kill();
+
 		// Timeline
-		const tl = new TimelineMax({ onComplete:() => {
-			if (playSound) SoundManager.play();
+		this.playTL = new TimelineMax({ onComplete:() => {
+			if (playSound) SoundManager.play(crossfade);
 		}});
-		tl.to(this.background.scale, 0.6, { x:window.innerWidth/400, y:window.innerHeight/400, ease:Power2.easeOut }, 0);
-		tl.to([window.app.camera.position, window.app.css3DCamera.position], 0.6, { z:1200, ease:Power2.easeOut }, 0);
-		tl.to([this.$credits, this.$brand, this.$crosses], 0.3, { opacity:0, ease:Power2.easeOut }, 0);
+		this.playTL.to(this.background.scale, 0.3, { x:window.innerWidth/400, y:window.innerHeight/400, ease:Power2.easeIn }, 0);
+		// this.playTL.to(this.supershape.scale, 0.2, { x:1.4, y:1.4, z:1.4, ease:Power2.easeIn }, 0.01);
+		this.playTL.to([window.app.camera.position, window.app.css3DCamera.position], 0.6, { z:1200, ease:Power2.easeOut }, 0);
+		this.playTL.to([this.$credits, this.$brand, this.$crosses], 0.3, { opacity:0, ease:Power2.easeOut }, 0);
+		this.playTL.to(this.$brandCorner, 0.4, { opacity:1, ease:Power2.easeOut }, 0.3);
 	}
 
 	pauseVjing() {
@@ -248,14 +255,19 @@ class Main {
 
 		// Display logo
 		this.$logo.style.opacity = 1;
+		
+		// Kill old timelines
+		if (this.playTL) this.playTL.kill();
+		if (this.pauseTL) this.pauseTL.kill();
 
 		// Timeline
-		const tl = new TimelineMax();
-		tl.to(window.app.camera.position, 0.7, { z:1200, ease:Power2.easeOut }, 0);
-		tl.to(this.background.scale, 0.7, { x:1, y:1, ease:Power2.easeOut }, 0);
-		tl.to(this.supershape.scale, 0.7, { x:0.7, y:0.7, z:0.7, ease:Power2.easeOut }, 0);
-		tl.to([this.$ui, this.$crosses, this.$brand, this.$credits, this.$logo], 0.7, { opacity:1, ease:Power2.easeOut });
-		tl.addCallback(() => {
+		this.pauseTL = new TimelineMax();
+		this.pauseTL.to(window.app.camera.position, 0.7, { z:1200, ease:Power2.easeOut }, 0);
+		this.pauseTL.to(this.background.scale, 0.7, { x:1, y:1, ease:Power2.easeOut }, 0);
+		this.pauseTL.to(this.supershape.scale, 0.7, { x:0.7, y:0.7, z:0.7, ease:Power2.easeOut }, 0);
+		this.pauseTL.to(this.$brandCorner, 0.3, { opacity:0, ease:Power2.easeOut }, 0);
+		this.pauseTL.to([this.$ui, this.$crosses, this.$brand, this.$credits, this.$logo], 0.7, { opacity:1, ease:Power2.easeOut });
+		this.pauseTL.addCallback(() => {
 			// Display circles
 			this.circles.display();
 		}, 0.3);
@@ -292,8 +304,8 @@ class Main {
 
 		window.app.css3DScene.rotation.x = this.smoothRotationX;
 		window.app.css3DScene.rotation.y = this.smoothRotationY;
-		window.app.css3DScene.position.x = this.smoothRotationX * 50;
-		window.app.css3DScene.position.y = this.smoothRotationY * 50;
+		window.app.css3DScene.position.x = this.smoothRotationX * 75;
+		window.app.css3DScene.position.y = this.smoothRotationY * 75;
 	}
 
 	resize() {

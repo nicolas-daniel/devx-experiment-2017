@@ -201,6 +201,31 @@ canvas {
     left: 100%;
 
     padding: 0 40px;
+
+    &--corner {
+        top: 40px;
+        right: 40px;
+        left: inherit;
+        z-index: 10;
+        
+        width: 35px;
+        height: 100px;
+        padding: 0;
+
+        opacity: 0;
+
+        .brand__title {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .brand__tagline {
+            position: absolute;
+            top: 73px;
+            left: 0;
+        }
+    }
 }
 
 .brand__title {
