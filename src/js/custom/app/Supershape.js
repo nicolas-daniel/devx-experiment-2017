@@ -185,13 +185,9 @@ class Supershape extends THREE.Object3D {
 
     update() {
         // Rotate shape
-        // this.rotation.x += 0.001;
-        // this.rotation.y += 0.005;
-        // this.rotation.z += 0.008;
-
-        this.rotation.y += 0.01;
-        this.rotation.x = 10;
-        // this.rotation.z += 0.008;
+        this.rotation.x += 0.001;
+        this.rotation.y += 0.005;
+        this.rotation.z += 0.008;
 
         // Redraw shape with new values
         if (!window.vjPlaying) {

@@ -326,15 +326,15 @@ class Main {
 		this.smoothRotationX += (rotationX - this.smoothRotationX) * 0.1;
 		this.smoothRotationY += (rotationY - this.smoothRotationY) * 0.1;
 		
-		// window.app.scene.rotation.x = this.smoothRotationX * 2;
-		// window.app.scene.rotation.y = this.smoothRotationY * 2;
-		// window.app.scene.position.x = this.smoothRotationX * 100;
-		// window.app.scene.position.y = this.smoothRotationY * 100;
+		window.app.scene.rotation.x = this.smoothRotationX * 2;
+		window.app.scene.rotation.y = this.smoothRotationY * 2;
+		window.app.scene.position.x = this.smoothRotationX * 100;
+		window.app.scene.position.y = this.smoothRotationY * 100;
 
-		// window.app.css3DScene.rotation.x = this.smoothRotationX;
-		// window.app.css3DScene.rotation.y = this.smoothRotationY;
-		// window.app.css3DScene.position.x = this.smoothRotationX * 75;
-		// window.app.css3DScene.position.y = this.smoothRotationY * 75;
+		window.app.css3DScene.rotation.x = this.smoothRotationX;
+		window.app.css3DScene.rotation.y = this.smoothRotationY;
+		window.app.css3DScene.position.x = this.smoothRotationX * 75;
+		window.app.css3DScene.position.y = this.smoothRotationY * 75;
 	}
 
 	resize() {
