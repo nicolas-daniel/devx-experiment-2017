@@ -21,7 +21,7 @@ class CrazyConsole {
             this.shapeIndex = this.shapeIndex + 1 > this.shapes.length - 1 ? 0 : this.shapeIndex + 1;
             console.clear();
             console.log(this.shapes[this.shapeIndex]);
-        }, 100);
+        }, 1000);
     }
 
 }
